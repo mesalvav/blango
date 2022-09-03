@@ -61,6 +61,7 @@ class Dev(Configuration):
       'allauth.socialaccount.providers.google',
       'rest_framework',
       'rest_framework.authtoken',
+      'drf_yasg',
   ]
 
   MIDDLEWARE = [
@@ -79,7 +80,7 @@ class Dev(Configuration):
   TEMPLATES = [
       {
           'BACKEND': 'django.template.backends.django.DjangoTemplates',
-          'DIRS': [BASE_DIR / 'templates'],
+          'DIRS': [BASE_DIR /'templates'],
           'APP_DIRS': True,
           'OPTIONS': {
               'context_processors': [
@@ -92,8 +93,11 @@ class Dev(Configuration):
           },
       },
   ]
+    
 
   #ojo
+  #TEMPLATE_DIRS = (os.path.join(SETTINGS_PATH, 'templates'),)
+
   AUTHENTICATION_BACKENDS = [
     # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
@@ -232,6 +236,13 @@ class Dev(Configuration):
           "rest_framework.authentication.SessionAuthentication",
           "rest_framework.authentication.TokenAuthentication",
         ]
+    }
+
+  SWAGGER_SETTINGS = {
+        "SECURITY_DEFINITIONS": {
+            "Token": {"type": "apiKey", "name": "Authorization", "in": "header"},
+            "Basic": {"type": "basic"},
+        }
     }
 
 
