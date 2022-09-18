@@ -15,6 +15,7 @@ import dj_database_url
 from pathlib import Path
 from configurations import Configuration
 from configurations import values
+from datetime import timedelta
 
 class Dev(Configuration):
   # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -204,7 +205,7 @@ class Dev(Configuration):
         "handlers": ["console"],
         "level": "DEBUG",
     },
-}
+    }
 
   PASSWORD_HASHERS = [
       'django.contrib.auth.hashers.Argon2PasswordHasher',
@@ -236,6 +237,8 @@ class Dev(Configuration):
           "rest_framework.authentication.BasicAuthentication",
           "rest_framework.authentication.SessionAuthentication",
           "rest_framework.authentication.TokenAuthentication",
+           "rest_framework_simplejwt.authentication.JWTAuthentication",
+
         ],
         "DEFAULT_THROTTLE_CLASSES": [
         "blog.api.throttling.AnonSustainedThrottle",
@@ -262,6 +265,10 @@ class Dev(Configuration):
             "Token": {"type": "apiKey", "name": "Authorization", "in": "header"},
             "Basic": {"type": "basic"},
         }
+    }
+  SIMPLE_JWT = {
+        "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
+        "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
     }
 
     

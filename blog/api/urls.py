@@ -6,6 +6,8 @@ from blog.api.views import UserDetail, TagViewSet, PostViewSet
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 import os
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -30,6 +32,8 @@ router.register("posts", PostViewSet)
 urlpatterns += [
     path("auth/", include("rest_framework.urls")),
     path("token-auth/", views.obtain_auth_token),
+        path("jwt/", TokenObtainPairView.as_view(), name="jwt_obtain_pair"),
+    path("jwt/refresh/", TokenRefreshView.as_view(), name="jwt_refresh"),
     re_path(
         r"^swagger(?P<format>\.json|\.yaml)$",
         schema_view.without_ui(cache_timeout=0),
